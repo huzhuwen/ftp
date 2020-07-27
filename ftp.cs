@@ -476,12 +476,14 @@ public class FTPFiles
         IList<string> files = ExceptFilesToFind(_ftpInstance.GetFiles());
         IList<FtpFileInfo> list = new List<FtpFileInfo>();
         FtpFileInfo afile;
-        foreach (string one in files)
+        if (files != null)
         {
-
-            afile.FileName = one;
-            afile.IsFolder = io.Directory.Exists(string.Format("\\\\{0}", (_ftpInstance.M_ServerIP + "/" + one).Replace('/', '\\')));
-            list.Add(afile);
+            foreach (string one in files)
+            {
+                afile.FileName = one;
+                afile.IsFolder = io.Directory.Exists(string.Format("\\\\{0}", (_ftpInstance.M_ServerIP + "/" + one).Replace('/', '\\')));
+                list.Add(afile);
+            }
         }
         M_Files = list;
     }
