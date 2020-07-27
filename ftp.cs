@@ -426,6 +426,8 @@ public class FTPFiles
     private IEnumerable<FtpFileInfo> GetServiceAllFiles(string path)
     {
         FtpFileInfo afile;
+        afile.FileName = string.Empty;
+        afile.IsFolder = false;
         _ftpInstance.SetIPAddress(path);
         IList<string> files = ExceptFilesToFind(_ftpInstance.GetFiles());
         if (files == null || files.Count == 0)
@@ -439,7 +441,7 @@ public class FTPFiles
                 afile.FileName = (path + "/" + one);
                 afile.IsFolder = io.Directory.Exists(string.Format("\\\\{0}", (_ftpInstance.M_ServerIP + "/" + afile.FileName).Replace('/', '\\')));
                 yield return afile;
-                foreach (FtpFileInfo sub in GetServiceAllFiles(path + "/" + one))
+                foreach (FtpFileInfo sub in GetServiceAllFiles(afile.FileName))
                 {
                     yield return sub;
                 }
